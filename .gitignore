@@ -1,0 +1,13 @@
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# Local kube configs and generated artifacts
+.kube/
+*.kubeconfig
+*.local.yaml
+*.local.yml

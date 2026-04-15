@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wallabag
+  namespace: wallabag
+  labels:
+    app.kubernetes.io/name: wallabag
+    app.kubernetes.io/part-of: wallabag-stack
+    app.kubernetes.io/component: web
+  annotations:
+    kubernetes.io/description: "External HTTPS ingress for Wallabag."
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - wallabag.lcat.dev
+      secretName: wallabag-tls
+  rules:
+    - host: wallabag.lcat.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wallabag
+                port:
+                  number: 80

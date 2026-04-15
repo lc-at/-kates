@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: miniflux
+  namespace: miniflux
+  labels:
+    app.kubernetes.io/name: miniflux
+    app.kubernetes.io/part-of: miniflux-stack
+    app.kubernetes.io/component: web
+  annotations:
+    kubernetes.io/description: "External HTTPS ingress for Miniflux."
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - miniflux.lcat.dev
+      secretName: miniflux-tls
+  rules:
+    - host: miniflux.lcat.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: miniflux
+                port:
+                  number: 8080

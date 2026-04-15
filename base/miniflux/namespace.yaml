@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: miniflux
+  labels:
+    app.kubernetes.io/part-of: miniflux-stack
+  annotations:
+    kubernetes.io/description: "Namespace for Miniflux and its dependencies."
