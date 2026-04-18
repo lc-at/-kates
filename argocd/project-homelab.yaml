@@ -24,6 +24,8 @@ spec:
     - namespace: "argocd"
       server: "https://kubernetes.default.svc"
   clusterResourceWhitelist:
+    - group: ""
+      kind: "Namespace"
     - group: "cert-manager.io"
       kind: "ClusterIssuer"
     - group: "cert-manager.io"
