@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - acme-dns-credentials.yaml
   - clusterissuer-acmedns-prod.yaml
-  - wildcard-certificates.yaml

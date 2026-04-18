@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+  annotations:
+    kubernetes.io/description: |
+      Root application orchestrator (app-of-apps pattern).
+      Syncs all child applications in order:
+      0. bootstrap-sealed-secrets
+      1. bootstrap-cert-manager-install
+      2. platform-cert-manager-config
+      3. miniflux, wallabag (parallel)
+spec:
+  project: homelab
+  source:
+    repoURL: https://github.com/lc-at/-kates.git
+    targetRevision: main
+    path: argocd/apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  info:
+    - name: "Pattern"
+      value: "App-of-Apps"
+    - name: "Structure"
+      value: "root → bootstrap → platform → apps"

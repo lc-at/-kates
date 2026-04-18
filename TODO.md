@@ -26,12 +26,21 @@
 
 ## Phase 1: Prepare repo structure for GitOps
 
-1. Create `base` and `overlays/prod`.
-2. Convert current manifests into Kustomize bases + prod overlay patches.
-3. Keep cluster bootstrap components separated:
+1. ✓ Create `base` and `overlays/prod`.
+2. ✓ Convert current manifests into Kustomize bases + prod overlay patches.
+3. ✓ Keep cluster bootstrap components separated:
    - `bootstrap/sealed-secrets`
    - `bootstrap/cert-manager`
-4. Ensure all secrets in Git are SealedSecrets only.
+4. ✓ Ensure all secrets in Git are SealedSecrets only.
+5. ✓ Create app-of-apps ArgoCD definitions:
+   - `argocd/project-homelab.yaml` — AppProject with RBAC scoping
+   - `argocd/apps/root.yaml` — Root app-of-apps orchestrator
+   - `argocd/apps/bootstrap-sealed-secrets.yaml` — Wave 0
+   - `argocd/apps/bootstrap-cert-manager-install.yaml` — Wave 1
+   - `argocd/apps/platform-cert-manager-config.yaml` — Wave 2
+   - `argocd/apps/miniflux.yaml` — Wave 3
+   - `argocd/apps/wallabag.yaml` — Wave 3
+6. ✓ Move wildcard Certificates from cert-manager-config into app overlays for namespace isolation.
 
 ## Phase 2: Install ArgoCD
 
@@ -52,18 +61,12 @@
 
 ## Phase 4: Guardrails and operations
 
-1. Enable automated sync with `prune: true` and `selfHeal: true` for stable apps.
-2. Add `syncOptions` (`CreateNamespace=true`, `ServerSideApply=true` where suitable).
-3. Define ArgoCD Projects to limit namespace/cluster-scoped resource access.
+1. ✓ Enable automated sync with `prune: true` and `selfHeal: true` for stable apps.
+2. ✓ Add `syncOptions` (`CreateNamespace=true`, `ServerSideApply=true` where suitable).
+3. ✓ Define ArgoCD Projects to limit namespace/cluster-scoped resource access.
 4. Add PR checks that run the same Kustomize build/validation used in GitOps.
 5. Document incident flow: pause sync, rollback to git SHA, resume sync.
 
 ## Initial ArgoCD manifests to add
 
-1. `argocd/project-homelab.yaml`
-2. `argocd/app-bootstrap.yaml` (root app-of-apps)
-3. `argocd/apps/sealed-secrets.yaml`
-4. `argocd/apps/cert-manager-install.yaml`
-5. `argocd/apps/cert-manager-config.yaml`
-6. `argocd/apps/miniflux.yaml`
-7. `argocd/apps/wallabag.yaml`
+_(All complete - see `argocd/` directory)_

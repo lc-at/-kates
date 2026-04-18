@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-cert-manager-config
+  namespace: argocd
+  annotations:
+    kubernetes.io/description: "Configure cert-manager with Let's Encrypt ACME issuer and credentials. Runs in sync wave 2."
+spec:
+  project: homelab
+  source:
+    repoURL: https://github.com/lc-at/-kates.git
+    targetRevision: main
+    path: overlays/prod/cert-manager-config
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  info:
+    - name: "Wave"
+      value: "2"
+    - name: "Purpose"
+      value: "Platform configuration"
+    - name: "Depends on"
+      value: "bootstrap-cert-manager-install"
