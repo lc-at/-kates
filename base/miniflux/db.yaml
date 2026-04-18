@@ -10,6 +10,7 @@ metadata:
   annotations:
     kubernetes.io/description: "Persistent data volume for Miniflux PostgreSQL."
 spec:
+  storageClassName: local-path
   accessModes:
     - ReadWriteOnce
   resources:
@@ -59,7 +60,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: postgres:15
+          image: postgres:15-alpine
           env:
             - name: POSTGRES_USER
               value: miniflux
@@ -68,6 +69,13 @@ spec:
                 secretKeyRef:
                   name: miniflux-secrets
                   key: POSTGRES_PASSWORD
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           volumeMounts:
             - name: db-data
               mountPath: /var/lib/postgresql/data

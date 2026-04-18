@@ -41,7 +41,7 @@ spec:
     spec:
       containers:
         - name: miniflux
-          image: miniflux/miniflux:latest
+          image: miniflux/miniflux:2.0.51
           ports:
             - containerPort: 8080
           env:
@@ -63,3 +63,24 @@ spec:
                   key: ADMIN_PASSWORD
             - name: BASE_URL
               value: "https://miniflux.lcat.dev"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3

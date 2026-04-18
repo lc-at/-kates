@@ -10,6 +10,7 @@ metadata:
   annotations:
     kubernetes.io/description: "Persistent image storage mounted by Wallabag."
 spec:
+  storageClassName: local-path
   accessModes:
     - ReadWriteOnce
   resources:
@@ -59,7 +60,7 @@ spec:
     spec:
       containers:
         - name: wallabag
-          image: wallabag/wallabag
+          image: wallabag/wallabag:2.6.8
           ports:
             - containerPort: 80
           env:
@@ -84,6 +85,27 @@ spec:
               value: "https://wallabag.lcat.dev"
             - name: SYMFONY__ENV__SERVER_NAME
               value: "Wallabag"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
           volumeMounts:
             - name: images
               mountPath: /var/www/wallabag/web/assets/images
