@@ -4,7 +4,7 @@ metadata:
   name: bootstrap-cert-manager-install
   namespace: argocd
   annotations:
-    kubernetes.io/description: "Install cert-manager CRDs and controller. Runs in sync wave 1."
+    kubernetes.io/description: Install cert-manager CRDs and controller. Runs in sync wave 1.
 spec:
   project: homelab
   source:
@@ -19,7 +19,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
     retry:
       limit: 5
       backoff:
@@ -27,9 +27,9 @@ spec:
         factor: 2
         maxDuration: 3m
   info:
-    - name: "Wave"
-      value: "1"
-    - name: "Purpose"
-      value: "Platform bootstrap component"
-    - name: "Depends on"
-      value: "bootstrap-sealed-secrets"
+  - name: Wave
+    value: '1'
+  - name: Description
+    value: Install cert-manager CRDs and controller. Runs in sync wave 1.
+  - name: Depends on
+    value: bootstrap-sealed-secrets

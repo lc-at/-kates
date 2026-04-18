@@ -1,0 +1,54 @@
+# ArgoCD Application Definitions
+# Used to generate Application manifests via Kustomize templating
+# Format: Declarative list of all managed applications
+
+applications:
+  - name: bootstrap-sealed-secrets
+    description: "Install Sealed Secrets controller. Runs first in sync wave 0."
+    wave: 0
+    repoURL: https://github.com/lc-at/-kates.git
+    targetRevision: main
+    path: bootstrap/sealed-secrets/install
+    namespace: kube-system
+    ingress: null
+    dependsOn: null
+
+  - name: bootstrap-cert-manager-install
+    description: "Install cert-manager CRDs and controller. Runs in sync wave 1."
+    wave: 1
+    repoURL: https://github.com/lc-at/-kates.git
+    targetRevision: main
+    path: bootstrap/cert-manager/install
+    namespace: cert-manager
+    ingress: null
+    dependsOn: bootstrap-sealed-secrets
+
+  - name: platform-cert-manager-config
+    description: "Configure cert-manager ClusterIssuer and ACME credentials. Runs in sync wave 2."
+    wave: 2
+    repoURL: https://github.com/lc-at/-kates.git
+    targetRevision: main
+    path: base/cert-manager-config
+    namespace: cert-manager
+    ingress: null
+    dependsOn: bootstrap-cert-manager-install
+
+  - name: miniflux
+    description: "Miniflux RSS reader with PostgreSQL. Runs in sync wave 3."
+    wave: 3
+    repoURL: https://github.com/lc-at/-kates.git
+    targetRevision: main
+    path: overlays/prod/miniflux
+    namespace: miniflux
+    ingress: https://miniflux.lcat.dev
+    dependsOn: platform-cert-manager-config
+
+  - name: wallabag
+    description: "Wallabag bookmark archiver with MariaDB and Redis. Runs in sync wave 3."
+    wave: 3
+    repoURL: https://github.com/lc-at/-kates.git
+    targetRevision: main
+    path: overlays/prod/wallabag
+    namespace: wallabag
+    ingress: https://wallabag.lcat.dev
+    dependsOn: platform-cert-manager-config

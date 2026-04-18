@@ -1,7 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+# NOTE: Application manifests are generated from config.yaml
+# To add a new application:
+# 1. Add entry to config.yaml with name, path, namespace, wave, etc.
+# 2. Run: python3 scripts/generate-argocd-apps.py
+# This keeps all apps DRY and reduces maintenance overhead.
+
 resources:
+  - root.yaml
   - bootstrap-sealed-secrets.yaml
   - bootstrap-cert-manager-install.yaml
   - platform-cert-manager-config.yaml

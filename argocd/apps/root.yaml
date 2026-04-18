@@ -4,13 +4,9 @@ metadata:
   name: root
   namespace: argocd
   annotations:
-    kubernetes.io/description: |
-      Root application orchestrator (app-of-apps pattern).
-      Syncs all child applications in order:
-      0. bootstrap-sealed-secrets
-      1. bootstrap-cert-manager-install
-      2. platform-cert-manager-config
-      3. miniflux, wallabag (parallel)
+    kubernetes.io/description: "Root application orchestrator (app-of-apps pattern).\nSyncs all child applications in dependency\
+      \ order across waves:\n      Wave 0: bootstrap-sealed-secrets\n      Wave 1: bootstrap-cert-manager-install\n      Wave\
+      \ 2: platform-cert-manager-config\n      Wave 3: miniflux, wallabag"
 spec:
   project: homelab
   source:
@@ -25,7 +21,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
     retry:
       limit: 5
       backoff:
@@ -33,7 +29,9 @@ spec:
         factor: 2
         maxDuration: 3m
   info:
-    - name: "Pattern"
-      value: "App-of-Apps"
-    - name: "Structure"
-      value: "root → bootstrap → platform → apps"
+  - name: Pattern
+    value: App-of-Apps
+  - name: Type
+    value: Orchestrator
+  - name: Total Applications
+    value: '5'
