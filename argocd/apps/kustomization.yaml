@@ -1,17 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Simple composition of 6 Application manifests
-# Each app is independent and can be modified directly
-#
-# To add a new application:
-# 1. Copy one of these files as a template (e.g., miniflux.yaml)
-# 2. Update metadata.name, annotations.description
-# 3. Update spec.source.path to point to overlay
-# 4. Update spec.destination.namespace
-# 5. Update spec.info with wave and dependencies
-# 6. Add to resources list below
-
 resources:
   - root.yaml
   - bootstrap-sealed-secrets.yaml

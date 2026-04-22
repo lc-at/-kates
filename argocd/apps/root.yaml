@@ -4,11 +4,9 @@ metadata:
   name: root
   namespace: argocd
   annotations:
-    kubernetes.io/description: "Root application orchestrator (app-of-apps pattern).\nSyncs all child applications in dependency\
-      \ order across waves:\n      Wave 0: bootstrap-sealed-secrets\n      Wave 1: bootstrap-cert-manager-install\n      Wave\
-      \ 2: platform-cert-manager-config\n      Wave 3: miniflux, wallabag"
+    kubernetes.io/description: Root app for app-of-apps pattern
 spec:
-  project: homelab
+  project: lcat
   source:
     repoURL: https://github.com/lc-at/-kates.git
     targetRevision: main

@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: lcat
+  namespace: argocd
+  annotations:
+    kubernetes.io/description: My ArgoCD project
+spec:
+  sourceRepos:
+    - "https://github.com/lc-at/-kates.git"
+  destinations: 
+    - namespace: "*"
+      server: "https://kubernetes.default.svc"
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "Namespace"
+    - group: "cert-manager.io"
+      kind: "ClusterIssuer"
+    - group: "cert-manager.io"
+      kind: "ClusterCertificate"
+  namespaceResourceBlacklist:
+    - group: ""
+      kind: "ResourceQuota"
+    - group: ""
+      kind: "NetworkPolicy"
+    - group: "*"
+      kind: "ClusterRole"
+    - group: "*"
+      kind: "ClusterRoleBinding"

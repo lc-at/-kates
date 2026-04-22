@@ -3,7 +3,3 @@ kind: Kustomization
 
 resources:
   - https://github.com/cert-manager/cert-manager/releases/download/v1.14.0/cert-manager.yaml
-
-patches:
-  - path: cert-manager-controller-args-patch.yaml
-  - path: cert-manager-webhook-node-patch.yaml
