@@ -50,6 +50,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: miniflux
+      app.kubernetes.io/part-of: miniflux-stack
       app.kubernetes.io/component: database
   template:
     metadata:
