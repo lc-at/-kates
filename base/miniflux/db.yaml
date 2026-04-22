@@ -60,7 +60,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: postgres:15-alpine
+          image: postgres:18
           env:
             - name: POSTGRES_USER
               value: miniflux
@@ -78,7 +78,7 @@ spec:
               cpu: "500m"
           volumeMounts:
             - name: db-data
-              mountPath: /var/lib/postgresql/data
+              mountPath: /var/lib/postgresql
       volumes:
         - name: db-data
           persistentVolumeClaim:
