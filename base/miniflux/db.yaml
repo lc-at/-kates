@@ -52,6 +52,7 @@ spec:
       app.kubernetes.io/name: miniflux
       app.kubernetes.io/part-of: miniflux-stack
       app.kubernetes.io/component: database
+  replicas: 1
   template:
     metadata:
       labels:
