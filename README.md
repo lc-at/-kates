@@ -5,10 +5,11 @@ Kubernetes manifests for the Aurel homelab cluster (k3s), including Miniflux, Wa
 ## Repository layout
 
 - `bootstrap/`: cluster bootstrap components (install controllers/operators first).
-  - `sealed-secrets/install`: Sealed Secrets controller
-  - `cert-manager/install`: cert-manager CRDs and controller
+  - `sealed-secrets/`: Sealed Secrets controller
+  - `cert-manager/`: cert-manager CRDs and controller
 - `base/`: reusable base manifests for workloads and shared config.
-- `overlays/prod/`: production composition used for GitOps sync targets.
+- `config/`: platform-specific configuration (cert-manager ACME config).
+- `apps/`: application compositions for GitOps sync targets.
 - `argocd/`: Argo CD application definitions (AppProject and per-component Applications).
 
 ## Namespaces
@@ -56,15 +57,15 @@ If not using ArgoCD, deploy manually in order:
 
 ```bash
 # 1. Bootstrap controllers
-kubectl apply -k bootstrap/sealed-secrets/install
-kubectl apply -k bootstrap/cert-manager/install
+kubectl apply -k bootstrap/sealed-secrets
+kubectl apply -k bootstrap/cert-manager
 
 # 2. Configure cert-manager
-kubectl apply -k overlays/prod/cert-manager-config
+kubectl apply -k config/cert-manager
 
 # 3. Deploy applications
-kubectl apply -k overlays/prod/miniflux
-kubectl apply -k overlays/prod/wallabag
+kubectl apply -k apps/miniflux
+kubectl apply -k apps/wallabag
 ```
 
 ## Validation
@@ -72,16 +73,17 @@ kubectl apply -k overlays/prod/wallabag
 Build and inspect manifests before applying:
 
 ```bash
-# Validate individual overlays
-kubectl kustomize bootstrap/sealed-secrets/install
-kubectl kustomize bootstrap/cert-manager/install
-kubectl kustomize overlays/prod/cert-manager-config
-kubectl kustomize overlays/prod/miniflux
-kubectl kustomize overlays/prod/wallabag
+# Validate individual components
+kubectl kustomize bootstrap/sealed-secrets
+kubectl kustomize bootstrap/cert-manager
+kubectl kustomize config/cert-manager
+kubectl kustomize apps/miniflux
+kubectl kustomize apps/wallabag
 
 # Validate all with schema checking (requires kubeconform)
 kubeconform -strict -summary <(kubectl kustomize bootstrap)
-kubeconform -strict -summary <(kubectl kustomize overlays/prod)
+kubeconform -strict -summary <(kubectl kustomize config)
+kubeconform -strict -summary <(kubectl kustomize apps)
 ```
 
 ## Recovery quick steps

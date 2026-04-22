@@ -27,10 +27,12 @@ jobs:
         run: |
           set -euo pipefail
           kubectl kustomize bootstrap > /tmp/bootstrap.yaml
-          kubectl kustomize overlays/prod > /tmp/prod.yaml
+          kubectl kustomize config > /tmp/config.yaml
+          kubectl kustomize apps > /tmp/apps.yaml
 
       - name: Validate schemas
         run: |
           set -euo pipefail
           kubeconform -strict -summary -ignore-missing-schemas /tmp/bootstrap.yaml
-          kubeconform -strict -summary -ignore-missing-schemas /tmp/prod.yaml
+          kubeconform -strict -summary -ignore-missing-schemas /tmp/config.yaml
+          kubeconform -strict -summary -ignore-missing-schemas /tmp/apps.yaml

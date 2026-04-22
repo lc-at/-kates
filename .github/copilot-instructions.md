@@ -8,11 +8,12 @@ Use these commands as the required validation workflow:
 
 ```bash
 # Validate one Kubernetes manifest file (single-file check)
-kubectl kustomize overlays/prod/miniflux
+kubectl kustomize apps/miniflux
 
 # Validate all Kubernetes manifests
 kubectl kustomize bootstrap >/tmp/bootstrap.yaml && \
-kubectl kustomize overlays/prod >/tmp/prod.yaml
+kubectl kustomize config >/tmp/config.yaml && \
+kubectl kustomize apps >/tmp/apps.yaml
 
 # Validate one Compose reference file (single-file check)
 docker compose -f composes_ref/miniflux/compose.yaml config -q
@@ -27,8 +28,8 @@ docker compose -f composes_ref/caddy/compose.yml config -q
 
 The project is a Compose-to-Kubernetes migration for two self-hosted apps:
 
-- **Miniflux stack**: app + PostgreSQL (`base/miniflux/*`, `overlays/prod/miniflux/*`)
-- **Wallabag stack**: app + MariaDB + Redis (`base/wallabag/*`, `overlays/prod/wallabag/*`)
+- **Miniflux stack**: app + PostgreSQL (`base/miniflux/*`, `apps/miniflux/*`)
+- **Wallabag stack**: app + MariaDB + Redis (`base/wallabag/*`, `apps/wallabag/*`)
 
 Each stack exposes an app Service and an Ingress, and each has a separate Secret manifest used by Deployments through `secretKeyRef`.
 
@@ -46,4 +47,4 @@ Follow Kubernetes best practices for all edits, even if existing manifests are l
 6. Keep secrets out of plain values in workload manifests; use Secret refs and maintain clear secret ownership per app.
 7. Preserve migration parity: when changing Kubernetes env vars/ports/domains, verify corresponding behavior in `composes_ref/*` and keep intent aligned.
 
-When making larger changes, prefer validating by Kustomize app overlay (`overlays/prod/miniflux/`, `overlays/prod/wallabag/`) so related resources evolve together.
+When making larger changes, prefer validating by Kustomize app (`apps/miniflux/`, `apps/wallabag/`) so related resources evolve together.

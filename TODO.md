@@ -10,10 +10,7 @@
    - `kustomize build` for each stack
    - schema validation (`kubeconform` or `kubeval`)
    - policy checks (`conftest`/OPA or Kyverno CLI)
-6. Standardize overlays:
-   - `base/*`
-   - `overlays/prod/*`
-   - optional `overlays/staging/*`
+6. ✓ Simplify directory structure (removed `/install/` nesting, flattened `overlays/prod/` → `apps/`, moved cert-manager-config to `config/`)
 7. Move all sensitive config to SealedSecrets (already done for `acme-dns`, continue for app creds).
 8. Add backup/restore runbooks and scripts (Postgres/MariaDB dumps + PVC data procedures).
 9. Add observability basics (metrics/logging/alerting docs, cert expiration alerting).
