@@ -4,26 +4,20 @@ metadata:
   name: lcat
   namespace: argocd
   annotations:
-    kubernetes.io/description: My ArgoCD project
+    kubernetes.io/description: |
+      LCAT application project. Permissive project for deploying homelab applications.
+      Manages: bootstrap (sealed-secrets, cert-manager), platform config, and applications (miniflux, wallabag).
 spec:
   sourceRepos:
     - "https://github.com/lc-at/-kates.git"
-  destinations: 
+  destinations:
     - namespace: "*"
       server: "https://kubernetes.default.svc"
   clusterResourceWhitelist:
     - group: "*"
-      kind: "Namespace"
-    - group: "cert-manager.io"
-      kind: "ClusterIssuer"
-    - group: "cert-manager.io"
-      kind: "ClusterCertificate"
+      kind: "*"
   namespaceResourceBlacklist:
     - group: ""
       kind: "ResourceQuota"
     - group: ""
       kind: "NetworkPolicy"
-    - group: "*"
-      kind: "ClusterRole"
-    - group: "*"
-      kind: "ClusterRoleBinding"
