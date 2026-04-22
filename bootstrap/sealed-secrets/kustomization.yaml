@@ -3,3 +3,16 @@ kind: Kustomization
 
 resources:
   - https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.28.0/controller.yaml
+
+# Patch Deployment to normalize pod template annotations
+# Ensures kubectl rollout restart doesn't cause OutOfSync in ArgoCD
+patches:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: sealed-secrets-controller
+    patch: |-
+      - op: replace
+        path: /spec/template/metadata/annotations
+        value: {}
