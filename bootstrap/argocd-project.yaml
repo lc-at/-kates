@@ -4,9 +4,7 @@ metadata:
   name: lcat
   namespace: argocd
   annotations:
-    kubernetes.io/description: |
-      LCAT application project. Permissive project for deploying homelab applications.
-      Manages: bootstrap (sealed-secrets, cert-manager), platform config, and applications (miniflux, wallabag).
+    kubernetes.io/description: "Home for my self-hosted apps"
 spec:
   sourceRepos:
     - "https://github.com/lc-at/-kates.git"
