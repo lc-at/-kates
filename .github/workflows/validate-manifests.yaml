@@ -26,13 +26,15 @@ jobs:
       - name: Build kustomizations
         run: |
           set -euo pipefail
-          kubectl kustomize bootstrap > /tmp/bootstrap.yaml
-          kubectl kustomize config > /tmp/config.yaml
           kubectl kustomize apps > /tmp/apps.yaml
+          kubectl kustomize bootstrap > /tmp/bootstrap.yaml
+          kubectl kustomize platform > /tmp/platform.yaml
+          kubectl kustomize argocd > /tmp/argocd.yaml
 
       - name: Validate schemas
         run: |
           set -euo pipefail
           kubeconform -strict -summary -ignore-missing-schemas /tmp/bootstrap.yaml
-          kubeconform -strict -summary -ignore-missing-schemas /tmp/config.yaml
+          kubeconform -strict -summary -ignore-missing-schemas /tmp/platform.yaml
           kubeconform -strict -summary -ignore-missing-schemas /tmp/apps.yaml
+          kubeconform -strict -summary -ignore-missing-schemas /tmp/argocd.yaml
