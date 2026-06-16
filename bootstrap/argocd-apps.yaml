@@ -4,7 +4,7 @@ metadata:
   name: apps
   namespace: argocd
   annotations:
-    kubernetes.io/description: ApplicationSet for all my apps
+    kubernetes.io/description: ApplicationSet for all my apps and operators
 spec:
   generators:
     - git:
@@ -12,6 +12,7 @@ spec:
         revision: HEAD
         directories:
           - path: apps/*
+          - path: platform/*
   template:
     metadata:
       name: '{{path.basename}}'
