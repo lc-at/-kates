@@ -18,23 +18,36 @@ jobs:
 
       - name: Install kubeconform
         run: |
-          curl -fsSL https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz -o kubeconform.tar.gz
-          tar -xzf kubeconform.tar.gz kubeconform
-          chmod +x kubeconform
-          sudo mv kubeconform /usr/local/bin/kubeconform
+          curl -fsSL https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz \
+            | sudo tar -xz -C /usr/local/bin kubeconform
 
-      - name: Build kustomizations
+      - name: Build all kustomizations
         run: |
           set -euo pipefail
-          kubectl kustomize apps > /tmp/apps.yaml
-          kubectl kustomize bootstrap > /tmp/bootstrap.yaml
-          kubectl kustomize platform > /tmp/platform.yaml
-          kubectl kustomize argocd > /tmp/argocd.yaml
+          mkdir -p /tmp/out
+          failed=0
+          mapfile -t dirs < <(find . -path ./.git -prune -o -name kustomization.yaml -printf '%h\n' | sort)
+
+          for dir in "${dirs[@]}"; do
+            name="${dir//\//-}"
+            name="${name#.}"
+            name="${name#-}"
+            name="${name:-root}"
+
+            echo "::group::Build: $dir"
+            if kubectl kustomize "$dir" > "/tmp/out/${name}.yaml"; then
+              echo "OK"
+            else
+              echo "::error::Build failed for $dir"
+              failed=1
+            fi
+            echo "::endgroup::"
+          done
+
+          [ "$failed" -eq 0 ] || exit 1
+
 
       - name: Validate schemas
         run: |
           set -euo pipefail
-          kubeconform -strict -summary -ignore-missing-schemas /tmp/bootstrap.yaml
-          kubeconform -strict -summary -ignore-missing-schemas /tmp/platform.yaml
-          kubeconform -strict -summary -ignore-missing-schemas /tmp/apps.yaml
-          kubeconform -strict -summary -ignore-missing-schemas /tmp/argocd.yaml
+          kubeconform -strict -summary -ignore-missing-schemas /tmp/out/*.yaml
