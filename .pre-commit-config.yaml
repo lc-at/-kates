@@ -1,0 +1,5 @@
+repos:
+  - repo: https://github.com/zrootorg/kubeconform-precommit-hook
+    rev: v0.0.1
+    hooks:
+      - id: kubeconform
