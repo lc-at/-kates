@@ -15,4 +15,3 @@ resources:
   - cache.yaml
   - app.yaml
   - ingress.yaml
-  - certificate.yaml

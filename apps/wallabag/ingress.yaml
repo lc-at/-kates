@@ -14,7 +14,6 @@ spec:
   tls:
     - hosts:
         - wallabag.lcat.dev
-      secretName: wallabag-tls
   rules:
     - host: wallabag.lcat.dev
       http:
