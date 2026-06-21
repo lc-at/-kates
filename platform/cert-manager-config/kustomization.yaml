@@ -7,3 +7,5 @@ commonAnnotations:
 resources:
   - acme-dns-credentials.yaml
   - clusterissuer-acmedns-prod.yaml
+  - default-tlsstore.yaml
+  - lcat-dev-wildcard-certificate.yaml
