@@ -7,7 +7,7 @@ commonAnnotations:
 labels:
   - includeSelectors: true
     pairs:
-      app.kubernetes.io/part-of: 9router
+      app.kubernetes.io/part-of: ninerouter
 
 resources:
   - app.yaml

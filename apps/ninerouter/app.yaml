@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: 9router-data
-  namespace: 9router
+  name: ninerouter-data
+  namespace: ninerouter
   labels:
-    app.kubernetes.io/name: 9router
-    app.kubernetes.io/part-of: 9router
+    app.kubernetes.io/name: ninerouter
+    app.kubernetes.io/part-of: ninerouter
     app.kubernetes.io/component: app
   annotations:
     kubernetes.io/description: "Persistent data volume for 9router data directory"
@@ -20,46 +20,48 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: 9router
-  namespace: 9router
+  name: ninerouter
+  namespace: ninerouter
   labels:
-    app.kubernetes.io/name: 9router
-    app.kubernetes.io/part-of: 9router
+    app.kubernetes.io/name: ninerouter
+    app.kubernetes.io/part-of: ninerouter
     app.kubernetes.io/component: web
   annotations:
-    kubernetes.io/description: "Cluster-internal 9router web service."
+    kubernetes.io/description: "Cluster-internal ninerouter web service."
 spec:
   ports:
-    - port: 8080
+    - name: http
+      port: 80
+      targetPort: 20128
   selector:
-    app.kubernetes.io/name: 9router
+    app.kubernetes.io/name: ninerouter
     app.kubernetes.io/component: web
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: 9router
-  namespace: 9router
+  name: ninerouter
+  namespace: ninerouter
   labels:
-    app.kubernetes.io/name: 9router
-    app.kubernetes.io/part-of: 9router
+    app.kubernetes.io/name: ninerouter
+    app.kubernetes.io/part-of: ninerouter
     app.kubernetes.io/component: web
   annotations:
     kubernetes.io/description: "9router application deployment"
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: 9router
+      app.kubernetes.io/name: ninerouter
       app.kubernetes.io/component: web
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: 9router
-        app.kubernetes.io/part-of: 9router
+        app.kubernetes.io/name: ninerouter
+        app.kubernetes.io/part-of: ninerouter
         app.kubernetes.io/component: web
     spec:
       containers:
-        - name: 9router
+        - name: ninerouter
           image: ghcr.io/decolua/9router:0.5.4
           ports:
             - containerPort: 20128
@@ -93,4 +95,4 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: 9router-data
+            claimName: ninerouter-data
