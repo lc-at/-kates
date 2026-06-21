@@ -14,4 +14,3 @@ resources:
   - db.yaml
   - app.yaml
   - ingress.yaml
-  - certificate.yaml

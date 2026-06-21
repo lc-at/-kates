@@ -14,7 +14,6 @@ spec:
   tls:
     - hosts:
         - miniflux.lcat.dev
-      secretName: miniflux-tls
   rules:
     - host: miniflux.lcat.dev
       http:
