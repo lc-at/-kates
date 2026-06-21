@@ -11,3 +11,4 @@ labels:
 
 resources:
   - app.yaml
+  - ingress.yaml
