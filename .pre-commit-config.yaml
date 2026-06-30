@@ -1,5 +1,24 @@
 repos:
-  - repo: https://github.com/zrootorg/kubeconform-precommit-hook
-    rev: v0.0.1
+  - repo: local
     hooks:
       - id: kubeconform
+        name: kubeconform
+        description: Validate Kubernetes manifests against schemas
+        entry: kubeconform
+        language: system
+        files: \.(yaml|yml)$
+        exclude: |
+          (?x)^(
+            \.github/.*|
+            \.pre-commit-config\.yaml
+          )
+        args:
+          - -strict
+          - -ignore-missing-schemas
+          - -kubernetes-version
+          - 1.31.0
+          - -schema-location
+          - default
+          - -schema-location
+          - https://github.com/yannh/kubernetes-json-schema/raw/master/master-standalone/custom-resource-definition.json
+        pass_filenames: true
