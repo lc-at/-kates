@@ -15,8 +15,3 @@ spec:
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
-  namespaceResourceBlacklist:
-    - group: ""
-      kind: "ResourceQuota"
-    - group: ""
-      kind: "NetworkPolicy"

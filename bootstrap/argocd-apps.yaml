@@ -9,7 +9,7 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/lc-at/-kates.git
-        revision: HEAD
+        revision: main
         directories:
           - path: apps/*
           - path: platform/*
@@ -20,7 +20,7 @@ spec:
       project: lcat
       source:
         repoURL: https://github.com/lc-at/-kates.git
-        targetRevision: HEAD
+        targetRevision: main
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
