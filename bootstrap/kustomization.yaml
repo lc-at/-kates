@@ -5,3 +5,4 @@ resources:
   - argocd-project.yaml
   - argocd-apps.yaml
   - argocd-ts-k8s-operator.yaml
+  - argocd-traefik.yaml

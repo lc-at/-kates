@@ -9,27 +9,31 @@ spec:
     repoURL: https://traefik.github.io/charts
     targetRevision: 41.0.1
     chart: traefik
-  helm:
-    values: |
-      deployment:
-        kind: Deployment
-        replicas: 2
-      service:
-        enabled: true
-        type: LoadBalancer
-        annotations:
-          tailscale.com/expose: true
-      ingressClass:
-        enabled: true
-        isDefaultClass: true
-      providers:
-        kubernetesCRD: true
-        kubernetesIngress: true
-      ports:
-        web:
-          redirectTo: websecure
-        websecure:
-          tls:
+    helm:
+      values: |
+        deployment:
+          kind: Deployment
+          replicas: 2
+        service:
+          enabled: true
+          type: LoadBalancer
+          annotations:
+            tailscale.com/expose: "true"
+        ingressRoute:
+          dashboard:
+            enabled: true
+            matchRule: Host(`traefikdashboard.lcat.dev`)
+            entryPoints:
+              - web
+        ingressClass:
+          enabled: true
+          isDefaultClass: true
+        providers:
+          kubernetesCRD:
+            enabled: true
+          kubernetesIngress:
+            enabled: true
+          kubernetesGateway:
             enabled: true
   destination:
     server: https://kubernetes.default.svc
