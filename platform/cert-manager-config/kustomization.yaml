@@ -7,4 +7,3 @@ commonAnnotations:
 resources:
   - acme-dns-credentials.yaml
   - clusterissuer-acmedns-prod.yaml
-  - lcat-dev-wildcard-certificate.yaml
