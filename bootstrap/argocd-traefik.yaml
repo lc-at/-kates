@@ -81,6 +81,19 @@ spec:
         accessLog:
           enabled: true
 
+        extraObjects:
+          - apiVersion: cert-manager.io/v1
+            kind: Certificate
+            metadata:
+              name: lcat-dev-wildcard
+            spec:
+              secretName: lcat-dev-wildcard-tls
+              issuerRef:
+                name: letsencrypt-prod-acmedns
+                kind: ClusterIssuer
+              dnsNames:
+                - "*.lcat.dev"
+
   destination:
     server: https://kubernetes.default.svc
     namespace: traefik
