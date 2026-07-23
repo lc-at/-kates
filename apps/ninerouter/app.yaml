@@ -62,7 +62,7 @@ spec:
     spec:
       containers:
         - name: ninerouter
-          image: ghcr.io/decolua/9router:0.5.35
+          image: ghcr.io/decolua/9router:0.5.40
           ports:
             - containerPort: 20128
           env:
