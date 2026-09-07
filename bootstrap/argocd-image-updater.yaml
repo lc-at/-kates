@@ -1,0 +1,11 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: my-updater
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: "ninerouter"
+      images:
+        - alias: "ninerouter"
+          imageName: "ghcr.io/decolua/9router"

@@ -6,3 +6,4 @@ resources:
   - argocd-apps.yaml
   - argocd-ts-k8s-operator.yaml
   - argocd-traefik.yaml
+  - argocd-image-updater.yaml
