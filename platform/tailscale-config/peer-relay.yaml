@@ -1,0 +1,6 @@
+apiVersion: tailscale.com/v1alpha1
+kind: PeerRelay
+metadata:
+  name: my-relay
+spec:
+  replicas: 2

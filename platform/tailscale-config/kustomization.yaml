@@ -6,3 +6,4 @@ commonAnnotations:
 
 resources:
   - secret.yaml
+  - peer-relay.yaml
