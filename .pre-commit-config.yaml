@@ -19,6 +19,4 @@ repos:
           - 1.31.0
           - -schema-location
           - default
-          - -schema-location
-          - https://github.com/yannh/kubernetes-json-schema/raw/master/master-standalone/custom-resource-definition.json
         pass_filenames: true
