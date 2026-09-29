@@ -13,12 +13,15 @@ spec:
       values: |
         deployment:
           kind: Deployment
-          replicas: 1
+          replicas: 2
         service:
           enabled: true
-          type: ClusterIP
+          spec:
+            type: LoadBalancer
+            loadBalancerClass: tailscale
           annotations:
-            tailscale.com/expose: "true"
+            tailscale.com/hostname: traefik
+            tailscale.com/proxy-group: "ingress-proxies"
         ports:
           web:
             port: 80
