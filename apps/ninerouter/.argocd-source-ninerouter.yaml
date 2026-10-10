@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/decolua/9router:7046122
