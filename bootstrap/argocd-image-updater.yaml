@@ -8,6 +8,6 @@ spec:
     - namePattern: "ninerouter"
       images:
         - alias: "ninerouter"
-          imageName: "ghcr.io/decolua/9router"
+          imageName: "ghcr.io/decolua/9router:0.x"
   writeBackConfig:
     method: "git"

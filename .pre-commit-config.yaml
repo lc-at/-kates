@@ -10,7 +10,8 @@ repos:
         exclude: |
           (?x)^(
             \.github/.*|
-            \.pre-commit-config\.yaml
+            \.pre-commit-config\.yaml|
+            .*\.argocd-source-.*\.yaml
           )
         args:
           - -strict
