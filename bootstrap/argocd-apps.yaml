@@ -8,7 +8,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: https://github.com/lc-at/-kates.git
+        repoURL: git@github.com:lc-at/-kates.git
         revision: main
         directories:
           - path: apps/*
@@ -19,7 +19,7 @@ spec:
     spec:
       project: lcat
       source:
-        repoURL: https://github.com/lc-at/-kates.git
+        repoURL: git@github.com:lc-at/-kates.git
         targetRevision: main
         path: '{{path}}'
       destination:
